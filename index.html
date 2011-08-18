@@ -1,0 +1,252 @@
+<!doctype html>
+
+<html>
+<head>
+    <title>A Quick look at Slim, a micro PHP framework</title>
+
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/prettify.css"/>
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Oswald&amp;v2">
+    <script src="js/libs/modernizr-2.0.6.min.js"></script>
+
+</head>
+<body>
+
+<div id="presentation">
+    <div class="slide">
+        <p>A Quick look at</p>
+        <h1>Slim</h1>
+        <footer>
+            <p>
+                <a href="http://www.slimframework.com/">http://www.slimframework.com/</a>
+            </p>
+        </footer>
+    </div>
+
+    <div class="slide">
+        <h2>So what is it?</h2>
+        <ul>
+            <li>PHP5 micro framework by Josh Lockhart</li>
+            <li>Will look familiar if you've used Sinatra, ExpressJS, Silex...</li>
+            <li>Great for quickly prototyping apps</li>
+            <li>Gets out of the way - can use whatever other components you want</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>Sounds marvellous. Show me some code.</h2>
+        <pre>
+$slim = new Slim();
+$slim->get('/starbucks/:beverage', 'orderBeverage');
+function orderBeverage($beverage) {
+    echo "You ordered a delicious $beverage";
+}
+$slim->run();
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>You N00b, we use > 5.3 in this office thankyou</h2>
+        <pre>
+$slim = new Slim();
+$slim->get('/starbucks/:beverage', function ($beverage) use ($slim) {
+        echo "You ordered a delicious $beverage";
+    }
+);
+$slim->run(); // imagine this is called in all subsequent code snippets
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>So, you're telling me that I have to pass in every variable I want to use inside the closure with the use() statement?</h2>
+    </div>
+
+    <div class="slide">
+        <h1>Yes.</h1>
+    </div>
+
+    <div class="slide">
+        <h2>Or...</h2>
+        <p>You can use a static function to get an instance of Slim from within your closure:</p>
+<pre>
+$slim = new Slim();
+$slim->get('/starbucks/:beverage', function ($beverage) {
+        $slim = Slim::getInstance();
+        $slim->render('index.php' array('beverage' => $beverage));
+    }
+);
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>So RESTful you say?</h2>
+        <p>Yep, you can have routes for each type of HTTP request:</p>
+<pre>
+$slim->get('/stabucks/:beverage', function($beverage) {});
+$slim->post('/stabucks/pay/:amount', function($amount) {});
+$slim->put('/stabucks/milktype/:type', function($type) {});
+$slim->delete('/stabucks/:beverage', function($beverage) {});
+</pre>
+
+<p>Or even your own custom HTTP request type if you're feeling mad.</p>
+    </div>
+
+    <div class="slide">
+        <h2>More on Routes</h2>        
+        <p>The routing system is flexible with optional parameters, conditionals and multiple request types</p>
+<pre>
+$slim->map(
+    'starbucks/:beverage/(:size)', 
+    function($beverage, $size = 'grande') use ($slim) 
+    {
+       $slim->render('index.php' array('beverage' => $beverage, 'size' => $size));
+    }
+)
+->conditions(array('beverage' => '(latte|flat-white|drip|mocca)'))
+->via('GET', 'DELETE');
+</pre>        
+    </div>
+
+    <div class="slide">
+        <h2>Middeware</h2>
+        <ul>
+            <li>Remote Procedure Calls</li>
+            <li>Java Remote Method Invocation</li>
+            <li>CORBA</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>No, only joking, it's good for morale</h2>
+        <p>Middleware are functions that are called between the route being matched and the 'route callable'</p>
+        <p>"Route middleware is anything that returns <code>true</code> for <code>is_callable</code>."</p>
+    </div>
+
+    <div class="slide">
+        <h2>Let's see some of this middleware then</h2>
+        <p>A common use is to check ACL / Authorisation for a user</p>
+<pre>
+$isLoyaltyCardHolder = function () use ($slim) {
+    $isCustomerLoyal = Customer::isLoyaltyCardHolder();
+    if ( ! $iscustomerLoyal) {
+        $slim->redirect('/costa');
+    }
+}
+
+$slim->get('/starbucks/free/:perk', $isLoyaltyCardHolder, function() {
+        echo "Welcome back valued loyalty card holder" 
+    }
+)->conditions(array('perk' => '(wifi|syrup|shot|cream)'));
+</pre>        
+    </div>
+
+    <div class="slide">
+        <h2>Templates</h2>
+        <p>Out of the box, Slim will look of template files in <code>./templates</code>
+<pre>
+$slim->render(
+    'order.php', 
+    array('beverage' => 'Misto', 'size' => 'Venti')
+);
+</pre>
+    <p>and then PHP variables are available in <code>./templates/order.php</code></p>
+<pre>
+&lt;p&gt;Enjoy your delicious &lt;?php echo $size ?&gt;  &lt;?php echo $beverage ?&gt;&lt;/p&gt;
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>Other Templating Engines are available</h2>
+        <p>Take a look at the Slim-Extras repo <br /> <a href="https://github.com/codeguy/Slim-Extras">https://github.com/codeguy/Slim-Extras</a></p>
+        <ul>
+            <li>Twig</li>
+            <li>Mustache</li>
+            <li>Smarty</li>
+            <li>Haml</li>
+            <li>And loads of others I've never heard of</li>
+        </ul>
+        <p>And if the world needs another PHP Templating Engine, Slim can render it using a custom View class that subclasses <code>Slim_View</code> and implements <code>Slim_View::render()</code></p>
+    </div>
+
+    <div class="slide">
+        <h2>Sessions</h2>
+        <p>Sessions are secure: Session id and data stored in Cookies, Session Cookies are signed and encrypted. Use <code>$_SESSION</code> as usual</p>
+        <h2>Caching</h2>
+        <p>ETag and if-modified-since headers can be used for browser caching</p>
+        <h2>Cookies</h2>
+<pre>
+$slim->setCookie('takeOut', 1, '1 hour');
+$slim->setEncryptedCookie('loyaltyCardNumber', 43252);
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>Flash</h2>
+        <p>'Flash' variables can be set which persist for the next HTTP request. Handy for showing error messages</p>
+<pre>
+$slim->get('starbucks/:beverage/:milkType', function($beverage, $milkType) use ($slim) {
+    if ($beverage == "flat-white" && $milkType == 'skinny') {
+        $slim->flash('error', 'May we suggest Sir, that a Flat While should only be made with full fat milk');
+        $slim->redirect('/take-order');
+    }
+});
+</pre>
+<p>To get a Flash variable from a template, say <code>takeOrder.php</code></p>
+<pre>
+&lt;p&gt;&lt;?php echo $flash['error'] ?&gt;&lt;/p&gt;
+</pre>
+    </div>
+
+    <div class="slide">
+        <h2>Configuration settings</h2>
+        <p>Configuration settings can be passed in during instantiation.</p>
+<pre>
+$slim = new Slim(array(
+    'OPTION' => 'VALUE'   
+));
+</pre>
+<p>Bloody loads of options, some highlights:</p>
+<ul>
+    <li><code>'template.path => './views'</code></li>
+    <li><code>'debug' => TRUE</code></li>
+    <li><code>'view' => new TwigView</code></li>
+    <li><code>'session.handler' => null</code> to bypass Slim's session handling</li>
+</ul>
+    </div>
+
+    <div class="slide">
+        <h2>What's Next?</h2>
+        <ul>
+            <li><a href="http://slimframework.com">Slimframework.com</a></li>
+            <li><a href="https://github.com/codeguy/Slim">Slim Git Respository</a></li>
+            <li><a href="https://github.com/codeguy/Slim-Extras">Slim Extras</a></li>
+        </ul>
+        <h2>This slideshow was brought to you today by</h2>
+        <ul>
+            <li><a href="http://markdalgleish.com/projects/fathom/">Fathom.js</a></li>
+            <li><a href="http://code.google.com/p/google-code-prettify/">google-code-prettify</a></li>
+            <li><a href="http://ethanschoonover.com/solarized">Ethan Schoonover's Solarized Color Scheme</a></li>
+            <li>a Venti Skinny Misto</li>
+            <li>and the letters E and L</li>
+        </ul>
+    </div>
+
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+
+<!--[if lt IE 7 ]>
+<script src="js/libs/dd_belatedpng.js"></script>
+<script>DD_belatedPNG.fix("img, .png_bg");</script>
+<![endif]-->
+
+<script src="js/fathom.min.js"></script>
+<script src="js/mylibs/prettify.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>

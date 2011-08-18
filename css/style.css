@@ -1,0 +1,283 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+html > * {
+    font-size: 132%;
+}
+
+body {
+	line-height: 1.3em;
+    font-family: Helvetica, Arial, "sans serif";
+    background-color: #fdf6f3;
+    color: #586e75;
+}
+
+a { color: #B58900; }
+a:visited { color: #B58900; }
+a:hover { background-color: #EEE8d5; }
+a:focus { outline: thin dotted; }
+
+/* Improve readability when focused and hovered in all browsers: h5bp.com/h */
+a:hover, a:active { outline: 0; }
+
+
+/* =============================================================================
+   Typography
+   ========================================================================== */
+
+abbr[title] { border-bottom: 1px dotted; }
+
+b, strong { font-weight: bold; }
+
+blockquote { margin: 1em 40px; }
+
+dfn { font-style: italic; }
+
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+/* Redeclare monospace font family: h5bp.com/j */
+pre, code, kbd, samp { font-family: monospace, serif; _font-family: 'courier new', monospace; font-size: 1em; }
+
+/* Improve readability of pre-formatted text in all browsers */
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+
+q { quotes: none; }
+q:before, q:after { content: ""; content: none; }
+
+small { font-size: 85%; }
+
+/* Position subscript and superscript content without affecting line-height: h5bp.com/k */
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+
+#presentation {
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+div.slide {
+	-webkit-box-shadow: 0 0 50px #c0c0c0;
+	-moz-box-shadow: 0 0 50px #c0c0c0;
+	box-shadow: 0 0 50px #c0c0c0;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	display: inline-block;
+	height: 800px;
+	padding: 30px;
+	position: relative;
+	vertical-align: top;
+	width: 978px;
+}
+	div.inactiveslide {
+		opacity: 0.4;
+	}
+	div.activeslide {
+		opacity: 1;
+	}
+pre {
+	font-family: monospace;
+    font-size: 136%;
+    padding: 15px;
+	max-height: 500px;
+	letter-spacing: -1px;
+	line-height: 1.6em;
+	overflow: auto;
+}
+footer {
+	bottom: 20px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+}
+
+
+
+h1 {
+    font-family: Oswald, Helvetica, Arial, sans-serif;
+    font-size: 600%;
+    text-align: center;
+    margin: 60px;
+    font-weight: normal;
+    color: #586e75;
+}
+h2 {
+    font-family: Oswald, Helvetica, Arial, sans-serif;
+    font-size: 197%;
+    margin: 60px 0;
+    line-height: 1.6em;
+}
+
+p, ul {
+    font-size: 142%;
+    margin: 15px 0;
+    line-height: 1.6em;
+}
+
+ul {
+    margin-left: 30px;
+}
+
+
+/* iPad */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+	div.inactiveslide {
+		opacity: 1;
+	}
+}
+
+/* iPhone */
+@media only screen and (max-device-width: 480px) {
+	div.inactiveslide {
+		opacity: 1;
+	}
+}
+
+/*
+ * Derived from einaros's Sons of Obsidian theme at
+ * http://studiostyl.es/schemes/son-of-obsidian by
+ * Alex Ford of CodeTunnel:
+ * http://CodeTunnel.com/blog/post/71/google-code-prettify-obsidian-theme
+ */
+
+.str
+{
+    color: #fdf6e3;
+}
+.kwd
+{
+    color: #d33682;
+}
+.com
+{
+    color: #657b83;
+}
+.typ
+{
+    color: #268bd2;
+}
+.lit
+{
+    color: #b58900;
+}
+.pun
+{
+    color: #93a1a1;
+}
+.pln
+{
+    color: #859900;
+}
+.tag
+{
+    color: #2aa198;
+}
+.atn
+{
+    color: #93a1a1;
+}
+.atv
+{
+    color: #cb4b16;
+}
+.dec
+{
+    color: #6c71c4;
+}
+pre.prettyprint
+{
+    border: 0px solid #888;
+}
+ol.linenums
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.prettyprint {
+    background: #073642;
+}
+
+@media print
+{
+    .str
+    {
+        color: #060;
+    }
+    .kwd
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .com
+    {
+        color: #600;
+        font-style: italic;
+    }
+    .typ
+    {
+        color: #404;
+        font-weight: bold;
+    }
+    .lit
+    {
+        color: #044;
+    }
+    .pun
+    {
+        color: #440;
+    }
+    .pln
+    {
+        color: #000;
+    }
+    .tag
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .atn
+    {
+        color: #404;
+    }
+    .atv
+    {
+        color: #060;
+    }
+}
